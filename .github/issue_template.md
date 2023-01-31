@@ -1,11 +1,12 @@
-## Descrição
-* Erro na montagem do componente Previsao.vue para que ao inicializar método getWeather() valide se var 'city' está com valor NULL.
+# Describe the occurrence
+* Describe here the occurrence of the bug found.
 
-# Por favor, siga as etapas gerais de solução de problemas primeiro:
+# Steps of the fix
+- [ ] ...
+- [ ]
 
-- [ ] Alterar forma com que é executado o método getWeather().
-- [ ] Validar se variável 'city' está com valor NULL.
+### Reports
+* Report or message of the error found can info here
 
-### Relatório de bug:
-
-**Failed to load resource: the server responded with a status of 400 (Bad Request)**
+### Screenshots
+* Printed the related local? paste the image here...
