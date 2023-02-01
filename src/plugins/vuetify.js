@@ -36,9 +36,8 @@ const dia = {
 
 export default createVuetify({
   theme: {
-    defaultTheme: "light",
+    defaultTheme: "dark",
     themes: {
-      noite,
       dia
     },
   },

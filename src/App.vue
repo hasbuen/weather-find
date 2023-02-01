@@ -37,6 +37,6 @@ const tema = useTheme();
 const modoEscuro = ref(false)
 
 const defineTema = () => {
-  tema.global.name.value = modoEscuro.value ? "noite" : "dia";
+  tema.global.name.value = modoEscuro.value ? "dia" : "dark";
 };
 </script>
