@@ -70,21 +70,10 @@ export default {
       weatherData: null,
     }
   },
-  mounted () {
-    this.getWeather()
-    this.interval = setInterval(() => {
-      this.getWeather()
-    console.log('atualizou')
-    }, 15 * 60 * 1000)
-  },
-  beforeDestroy () {
-    clearInterval(this.interval)
-  },
-
- //https://api.openweathermap.org/data/2.5/weather?q=cascavel&units=metric&appid=9a41f4ca472bb1a3ecf1237712d0a7ad&lang=pt_br
   methods: {
     async getWeather () {
-      const API_KEY = '9a41f4ca472bb1a3ecf1237712d0a7ad'
+      if (!this.city) return;
+      const API_KEY = import.meta.env.VITE_API_KEY
       const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&units=metric&appid=${API_KEY}&lang=pt_br`
       try {
         const response = await axios.get(API_URL)
@@ -92,8 +81,10 @@ export default {
       } catch (error) {
         console.error(error)
       }
+      setInterval(() => {
+        this.getWeather();
+      }, 15 * 60 * 1000);
     },
-
   }
 }
 </script>
