@@ -10,6 +10,7 @@
   "dependencies": {
     "@mdi/font": "7.0.96",
     "axios": "^1.2.6",
+    "dotenv": "^16.0.3",
     "roboto-fontface": "*",
     "vue": "^3.2.38",
     "vuetify": "^3.0.0",
@@ -21,5 +22,6 @@
     "eslint-plugin-vue": "^9.3.0",
     "vite": "^3.1.9",
     "vite-plugin-vuetify": "^1.0.0-alpha.12"
-  }
+  },
+  "type": "module"
 }

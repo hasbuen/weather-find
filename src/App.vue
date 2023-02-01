@@ -9,7 +9,6 @@
         <v-switch
             elevation="7"
             inset
-            :color="primary"
             v-model="modoEscuro"
             @change="defineTema()"
           >
