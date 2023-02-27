@@ -2,8 +2,6 @@
   <v-app>
 <v-container>
 
-
-
      <v-row class="d-flex align-top justify-right">
         <v-col cols="auto">
         <v-switch
@@ -23,6 +21,7 @@
       <Previsao />
     </v-main>
 
+    
 
   </v-app>
 </template>
@@ -40,3 +39,7 @@ const defineTema = () => {
   tema.global.name.value = modoEscuro.value ? "noite" : "dia";
 };
 </script>
+
+<style>
+
+</style>
