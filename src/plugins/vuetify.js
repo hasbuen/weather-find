@@ -15,9 +15,9 @@ import { createVuetify } from 'vuetify'
 const noite = {
   dark: true,
   colors: {
-    background: "#15202b",
+    background: "#000",
     surface: "#15202b",
-    primary: "#3f51b5",
+    primary: "#0B092F",
     secondary: "#612BBA",
     error: "#ff5722",
   },
@@ -26,9 +26,9 @@ const noite = {
 const dia = {
   dark: false,
   colors: {
-    background: "#eee",
+    background: "#CBEAFE",
     surface: "#15202b",
-    primary: "#3f51b5",
+    primary: "#E4F4FF",
     secondary: "#00FFA4",
     error: "#ffcc00",
   },
@@ -36,9 +36,10 @@ const dia = {
 
 export default createVuetify({
   theme: {
-    defaultTheme: "dark",
+    defaultTheme: "dia",
     themes: {
-      dia
+      dia,
+      noite
     },
   },
 });

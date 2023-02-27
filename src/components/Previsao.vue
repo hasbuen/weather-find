@@ -1,90 +1,139 @@
 <template>
-<v-container>
-    <v-responsive class="d-flex fill-height">
+  <v-container>
+    <v-card color="primary" v-if="weatherData" elevation="7" align="center">
+      <v-card-item class="text-uppercase">{{ city }}</v-card-item>
+      <v-card-text align="center">
+        <v-row>
+          <v-col class="text-h4" cols="12">
+            <v-img
+              :width="150"
+              aspect-ratio="16/9"
+              cover
+              :src="`${image}`"
+            ></v-img>
 
-      <v-card color="secondary" class="mx-auto" v-if="weatherData" elevation="7">
+            {{ Math.round(weatherData.main.temp) }}&deg;C
+          </v-col>
+        </v-row>
+        <v-row align="center">
+          <v-col class="text-h6" cols="12">
+            {{ weatherData.weather[0].description }}
+          </v-col>
+        </v-row>
+      </v-card-text>
 
-    <v-card-item>{{ city }}</v-card-item>
-    <v-card-text class="py-0">
-      <v-row align="center" no-gutters>
-        <v-col
-          class="text-h2"
-          cols="8"
-        >
-          {{ weatherData.main.temp }}&deg;C
+      <v-card-actions>
+        <v-list-item class="w-100">
+          <template v-slot:prepend>
+            <div class="d-flex justify-self-end">
+              <v-icon class="me-1" icon="mdi-weather-windy"></v-icon>
+              <span class="subheading"> {{ weatherData.wind.speed }}Km/h </span>
+            </div>
+          </template>
 
-        </v-col>
-
-        <v-col cols="6" class="text-right">
-
-        </v-col>
-      </v-row>
-    </v-card-text>
-
-    <div class="d-flex py-3 justify-space-between">
-      <v-list-item
-        density="compact"
-        prepend-icon="mdi-weather-windy"
-      >
-        <v-list-item-subtitle>{{ weatherData.wind.speed }} m/s</v-list-item-subtitle>
-      </v-list-item>
-
-      <v-list-item
-        density="compact"
-        prepend-icon="mdi-weather-pouring"
-      >
-        <v-list-item-subtitle>{{ weatherData.weather[0].description }} {{ weatherData.main.humidity }}%</v-list-item-subtitle>
-      </v-list-item>
-    </div>
-
-  </v-card>
-
-   <v-card-text class="d-flex align-bottom justify-center">
-
-        <v-text-field
-        v-model='city'
-        density="compact"
-        variant="solo"
-        label="Obter previsão em..."
-        append-inner-icon="mdi-magnify"
-        single-line
-        @click:append-inner="getWeather"
-      />
-
-</v-card-text>
-
-</v-responsive>
+          <v-list-item>
+            <template v-slot:append>
+              <div class="d-flex justify-self-end">
+                <v-icon class="me-1" icon="mdi-waves"></v-icon>
+                <span class="subheading">
+                  {{ weatherData.main.humidity }}%
+                </span>
+              </div>
+            </template>
+          </v-list-item>
+        </v-list-item>
+      </v-card-actions>
+    </v-card>
   </v-container>
 
+  <v-footer app class="bg-primary">
+    <v-text-field
+      clearable
+      v-model="city"
+      density="comfortable"
+      variant="solo"
+      label="Obter dados de..."
+      prepend-icon="mdi-map-marker"
+      append-inner-icon="mdi-magnify"
+      single-line
+      @click:append-inner="getWeather"
+      @keyup.enter="getWeather"
+    />
+  </v-footer>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
+import clear from "../assets/clear.png";
+import rain from "../assets/rain.png";
+import snow from "../assets/snow.png";
+import cloud from "../assets/cloud.png";
+import mist from "../assets/mist.png";
 
 export default {
   name: "Previsao",
 
-  data () {
+  data() {
     return {
-      city: '',
+      city: "",
+      lang: "pt_br",
+      image: "",
       weatherData: null,
-    }
+    };
   },
+
   methods: {
-    async getWeather () {
+    async getWeather() {
       if (!this.city) return;
-      const API_KEY = import.meta.env.VITE_API_KEY
-      const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&units=metric&appid=${API_KEY}&lang=pt_br`
+
+      const API_KEY = import.meta.env.VITE_API_KEY;
+      const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&units=metric&appid=${API_KEY}&lang=${this.lang}`;
+
       try {
-        const response = await axios.get(API_URL)
-        this.weatherData = response.data
+        const response = await axios.get(API_URL);
+
+        switch (response.data.weather[0].main) {
+          case "Clear":
+            this.image = clear;
+            break;
+
+          case "Rain":
+            this.image = rain;
+            break;
+
+          case "Snow":
+            this.image = snow;
+            break;
+
+          case "Clouds":
+            this.image = cloud;
+            break;
+
+          case "Haze":
+            this.image = mist;
+            break;
+
+          default:
+            this.image = "";
+        }
+
+        this.weatherData = response.data;
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
+
       setInterval(() => {
         this.getWeather();
       }, 15 * 60 * 1000);
     },
-  }
-}
+  },
+
+  watch: {
+    city(newCityValue) {
+      if (!newCityValue) {
+        this.weatherData = null;
+      }
+    },
+  },
+};
 </script>
