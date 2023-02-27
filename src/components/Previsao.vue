@@ -52,7 +52,7 @@
       v-model="city"
       density="comfortable"
       variant="solo"
-      label="Obter dados de..."
+      label="Obter previsão em..."
       prepend-icon="mdi-map-marker"
       append-inner-icon="mdi-magnify"
       single-line
