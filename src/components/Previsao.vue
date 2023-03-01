@@ -1,49 +1,59 @@
 <template>
   <v-container>
-    <v-card color="primary" v-if="weatherData" elevation="7" align="center">
-      <v-card-item class="text-uppercase">{{ city }}</v-card-item>
-      <v-card-text align="center">
-        <v-row>
-          <v-col class="text-h4" cols="12">
-            <v-img
-              :width="150"
-              aspect-ratio="16/9"
-              cover
-              :src="`${image}`"
-            ></v-img>
+    <transition name="fade">
+      <v-card
+        class="rounded-xl"
+        color="primary"
+        v-if="weatherData"
+        elevation="7"
+        align="center"
+      >
+        <v-card-item class="text-uppercase">{{ city }}</v-card-item>
 
-            {{ Math.round(weatherData.main.temp) }}&deg;C
-          </v-col>
-        </v-row>
-        <v-row align="center">
-          <v-col class="text-h6" cols="12">
-            {{ weatherData.weather[0].description }}
-          </v-col>
-        </v-row>
-      </v-card-text>
+        <v-card-text align="center">
+          <v-row>
+            <v-col class="text-h4" cols="12">
+              <v-img
+                class="floating-image"
+                :width="150"
+                cover
+                :src="`${image}`"
+              ></v-img>
+              {{ Math.round(weatherData.main.temp) }}&deg;C
+            </v-col>
+          </v-row>
+          <v-row align="center">
+            <v-col class="text-h6" cols="12">
+              {{ weatherData.weather[0].description }}
+            </v-col>
+          </v-row>
+        </v-card-text>
 
-      <v-card-actions>
-        <v-list-item class="w-100">
-          <template v-slot:prepend>
-            <div class="d-flex justify-self-end">
-              <v-icon class="me-1" icon="mdi-weather-windy"></v-icon>
-              <span class="subheading"> {{ weatherData.wind.speed }}Km/h </span>
-            </div>
-          </template>
-
-          <v-list-item>
-            <template v-slot:append>
+        <v-card-actions>
+          <v-list-item class="w-100">
+            <template v-slot:prepend>
               <div class="d-flex justify-self-end">
-                <v-icon class="me-1" icon="mdi-waves"></v-icon>
+                <v-icon class="me-1" icon="mdi-weather-windy"></v-icon>
                 <span class="subheading">
-                  {{ weatherData.main.humidity }}%
+                  {{ weatherData.wind.speed }}Km/h
                 </span>
               </div>
             </template>
+
+            <v-list-item>
+              <template v-slot:append>
+                <div class="d-flex justify-self-end">
+                  <v-icon class="me-1" icon="mdi-waves"></v-icon>
+                  <span class="subheading">
+                    {{ weatherData.main.humidity }}%
+                  </span>
+                </div>
+              </template>
+            </v-list-item>
           </v-list-item>
-        </v-list-item>
-      </v-card-actions>
-    </v-card>
+        </v-card-actions>
+      </v-card>
+    </transition>
   </v-container>
 
   <v-footer app class="bg-primary">
@@ -79,6 +89,10 @@ export default {
       lang: "pt_br",
       image: "",
       weatherData: null,
+      rain: rain,
+      snow: snow,
+      cloud: cloud,
+      mist: mist,
     };
   },
 
@@ -91,26 +105,25 @@ export default {
 
       try {
         const response = await axios.get(API_URL);
-
         switch (response.data.weather[0].main) {
           case "Clear":
             this.image = clear;
             break;
 
           case "Rain":
-            this.image = rain;
+            this.image = this.rain;
             break;
 
           case "Snow":
-            this.image = snow;
+            this.image = this.snow;
             break;
 
           case "Clouds":
-            this.image = cloud;
+            this.image = this.cloud;
             break;
 
           case "Haze":
-            this.image = mist;
+            this.image = this.mist;
             break;
 
           default:
@@ -121,10 +134,6 @@ export default {
       } catch (error) {
         console.error(error);
       }
-
-      setInterval(() => {
-        this.getWeather();
-      }, 15 * 60 * 1000);
     },
   },
 
@@ -137,3 +146,38 @@ export default {
   },
 };
 </script>
+
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 240s ease-in-out;
+  opacity: 0;
+}
+
+.fade-enter,
+.fade-leave-to {
+  transform: transformY(-50%);
+  opacity: -15;
+}
+
+.fade-enter-to,
+.fade-leave {
+  transform: transformY(90%);
+  opacity: 0;
+}
+
+.floating-image {
+  position: relative;
+  animation: float 2.5s infinite;
+  animation-direction: alternate;
+}
+
+@keyframes float {
+  from {
+    top: -1px;
+  }
+  to {
+    top: -11px;
+  }
+}
+</style>
