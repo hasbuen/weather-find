@@ -1,6 +1,6 @@
 
-# Weather-find
-![image](https://user-images.githubusercontent.com/91395027/216188546-d3091d60-2130-47fd-bea7-6b3dadb9398e.png)
+## Weather-find
+![image](https://user-images.githubusercontent.com/91395027/222032069-947defa6-75b7-4ec0-951d-0e7a3698ff53.png)
 
 O trecho de código dentro das tags <template> é o código HTML que compõe a estrutura visual do componente. Ele contém um container <v-container>, uma transição <transition> e um card <v-card> que exibe a previsão do tempo da cidade pesquisada. O componente também inclui um rodapé <v-footer> que contém um campo de texto para o usuário inserir o nome da cidade que deseja pesquisar.
 
