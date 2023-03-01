@@ -1,5 +1,6 @@
-# description
-O código é um componente Vue.js que exibe a previsão do tempo de uma determinada cidade, e permite que o usuário pesquise a previsão de outras cidades.
+
+# Weather-find
+![image](https://user-images.githubusercontent.com/91395027/216188546-d3091d60-2130-47fd-bea7-6b3dadb9398e.png)
 
 O trecho de código dentro das tags <template> é o código HTML que compõe a estrutura visual do componente. Ele contém um container <v-container>, uma transição <transition> e um card <v-card> que exibe a previsão do tempo da cidade pesquisada. O componente também inclui um rodapé <v-footer> que contém um campo de texto para o usuário inserir o nome da cidade que deseja pesquisar.
 
